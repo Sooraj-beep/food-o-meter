@@ -1,13 +1,11 @@
 import React from 'react';
+import { Alert } from "react-native";
 import AppLoading from 'expo-app-loading'
 import { Container, Header, Label, Title, Form, Item, Input, Content, Footer, FooterTab, Button, Left, Right, Body, Icon, Text } from 'native-base';
 import * as Font from 'expo-font';
 import { Ionicons } from '@expo/vector-icons';
 import * as firebase from 'firebase';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
 
-import Home from './Home'
 
 const firebaseConfig = {
     apiKey: "AIzaSyAJDJVR_xFuUR66Ki3gm7nYacg3yamB3rg",
@@ -18,7 +16,7 @@ const firebaseConfig = {
   }
 
   firebase.initializeApp(firebaseConfig);
-
+  
 
 export default class Login extends React.Component {
   constructor(props) {
@@ -27,10 +25,10 @@ export default class Login extends React.Component {
       isReady: false,
       email: '',
       password: '',
+      alertMsg: '',
 
     };
   }
-
   async componentDidMount() {
     await Font.loadAsync({
       Roboto: require('native-base/Fonts/Roboto.ttf'),
@@ -47,6 +45,7 @@ export default class Login extends React.Component {
         return;
       }
       firebase.auth().createUserWithEmailAndPassword(email, password)
+      this.createAlert("Successful sign up!")
     }
     catch(error){
       console.log(error.toString())
@@ -56,12 +55,22 @@ export default class Login extends React.Component {
   loginUser = (email, password) => {
 
     try{
-      firebase.auth().signInWithEmailAndPassword(email, password).then(this.props.navigation.navigate('Home'))
+      firebase.auth().signInWithEmailAndPassword(email, password).then(this.props.navigation.replace('Home'))
     }
     catch(error){
       console.log(error.toString())
     }
   }
+
+  createAlert = (alertMsg) =>
+  Alert.alert(
+    "",
+    alertMsg,
+    [
+      { text: "OK", onPress: () => console.log("OK Pressed") }
+    ]
+  );
+
 
   render() {
     if (!this.state.isReady) {
@@ -70,17 +79,6 @@ export default class Login extends React.Component {
 
     return (
       <Container>
-      <Header>
-        <Left>
-          <Button transparent>
-            <Icon name='menu' />
-          </Button>
-        </Left>
-        <Body>
-          <Title>Calorie Calculator</Title>
-        </Body>
-        <Right />
-      </Header>
       <Content>
         <Form>
             <Item floatingLabel>

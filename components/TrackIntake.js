@@ -1,19 +1,16 @@
 import React from 'react';
-import { Alert } from "react-native";
+import { View, Alert } from 'react-native';
 import AppLoading from 'expo-app-loading'
 import { Container, Header, Title, Form, Item, Input, Content, Footer, FooterTab, Button, Left, Right, Body, Icon, Text,} from 'native-base';
 import * as Font from 'expo-font';
 import { Ionicons } from '@expo/vector-icons';
 
-export default class Home extends React.Component {
+export default class TrackIntake extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       isReady: false,
-      ht: '',
-      wt: '',
-      age: '',
-      ans: 0,
+      
     };
   }
 
